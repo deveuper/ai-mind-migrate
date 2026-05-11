@@ -26,22 +26,25 @@ ai-mind-migrate/
 ├── SKILL.md                    # 主 Skill — 通用迁移引擎
 ├── PLATFORM_REFERENCE.md       # 16 平台格式速查卡
 ├── migrate.sh                  # CLI 迁移脚本
-└── skills-for-store/           # 16 个独立 SKILL，可直接上传到 ClawHub
-    ├── skill-claude-code/      → Claude Code 迁移工具
-    ├── skill-codex-copilot/    → Codex & Copilot 迁移工具
-    ├── skill-cursor/           → Cursor 迁移工具
-    ├── skill-windsurf/         → Windsurf 迁移工具
-    ├── skill-gemini-cli/       → Gemini CLI 迁移工具
-    ├── skill-aider/            → Aider 迁移工具
-    ├── skill-cline/            → Cline 迁移工具
-    ├── skill-roo-code/         → Roo Code 迁移工具
-    ├── skill-workbuddy/        → WorkBuddy 迁移工具
-    ├── skill-codebuddy/        → CodeBuddy 迁移工具
-    ├── skill-trae/             → Trae 迁移工具
-    ├── skill-lingma/           → TONGYI Lingma 迁移工具
-    ├── skill-augment-code/     → Augment Code 迁移工具
-    ├── skill-qoder/            → Qoder/QCode 迁移工具
-    └── skill-openclaw/         → OpenClaw/ClawHub 迁移工具
+└── skills-for-store/           # 16 个独立 Skill（每个可单独上传 ClawHub）
+    ├── openclaw/ai-mind-migrate-openclaw/
+    │   ├── SKILL.md            # OpenClaw 迁移 Skill
+    │   ├── migrate.sh          # CLI 脚本
+    │   └── PLATFORM_REFERENCE.md
+    ├── claude-code/ai-mind-migrate-claude-code/
+    ├── cursor/ai-mind-migrate-cursor/
+    ├── windsurf/ai-mind-migrate-windsurf/
+    ├── workbuddy/ai-mind-migrate-workbuddy/
+    ├── codebuddy/ai-mind-migrate-codebuddy/
+    ├── codex-copilot/ai-mind-migrate-codex-copilot/
+    ├── gemini-cli/ai-mind-migrate-gemini-cli/
+    ├── aider/ai-mind-migrate-aider/
+    ├── cline/ai-mind-migrate-cline/
+    ├── roo-code/ai-mind-migrate-roo-code/
+    ├── trae/ai-mind-migrate-trae/
+    ├── lingma/ai-mind-migrate-lingma/
+    ├── augment-code/ai-mind-migrate-augment-code/
+    └── qoder/ai-mind-migrate-qoder/
 ```
 
 ---
@@ -117,27 +120,15 @@ bash migrate.sh export-canonical    # 导出 Canonical 快照
 
 ---
 
-## 🔗 在 ClawHub 上发布 | Publishing to ClawHub
-
-每个 `skills-for-store/` 下的目录都是一个完整的、可直接上传到 ClawHub 的 Skill：
-
-1. 访问 https://clawhub.ai/publish-skill
-2. 选择对应的 skill 文件夹上传
-3. 确保 `homepage` 字段指向本仓库（已预设）
-4. 所有 skill 均已包含完整 frontmatter（name, slug, description, version, homepage, metadata.openclaw）
-
----
-
 ## 📜 许可证 | License
 
-MIT-0 (ClawHub 默认许可) — 自由使用、修改和再分发。
+MIT-0 — 自由使用、修改和再分发。
 
 ---
 
 ## 🤝 贡献 | Contributing
 
 PR、Issues 和 Feature Requests 欢迎提交！
-本仓库的 16 个独立 SKILL 均可单独改进和重新发布。
 
 ---
 
@@ -163,10 +154,9 @@ PR、Issues 和 Feature Requests 欢迎提交！
 - **Cross-tool collaboration**: Share context between team members using different tools
 
 **How to install:**
-- **Claude Code**: Copy `skills-for-store/skill-claude-code/` to `.claude/skills/`
-- **WorkBuddy**: Copy `skills-for-store/skill-workbuddy/` to `~/.workbuddy/skills/`
-- **Cursor**: Copy `skills-for-store/skill-cursor/` to `.cursor/skills/`
-- **ClawHub**: Upload any `skills-for-store/skill-*/` folder to clawhub.ai
+- **Claude Code**: Copy `skills-for-store/claude-code/ai-mind-migrate-claude-code/` to `.claude/skills/`
+- **WorkBuddy**: Copy `skills-for-store/workbuddy/ai-mind-migrate-workbuddy/` to `~/.workbuddy/skills/`
+- **Cursor**: Copy `skills-for-store/cursor/ai-mind-migrate-cursor/` to `.cursor/skills/`
 - **Others**: Copy the relevant skill folder to the platform's skills directory
 
 ---
@@ -174,6 +164,8 @@ PR、Issues 和 Feature Requests 欢迎提交！
 <a id="繁體中文"></a>
 
 ## 繁體中文
+
+
 
 **AI Mind Migrate** 是一個跨平台的 AI 上下文遷移工具，支援 16 個編碼助手平台之間的規則與記憶雙向遷移。
 
