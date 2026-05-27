@@ -1,35 +1,35 @@
 # AI Mind Migrate
 
-> **跨平台 AI 上下文迁移工具** — 在 16 个 AI 编码助手之间无缝迁移项目规则、记忆和上下文。
->
 > **Cross-platform AI context migration tool** — Seamlessly migrate project rules, memory, and context across 16 AI coding assistants.
+>
+> **跨平台 AI 上下文迁移工具** — 在 16 个 AI 编码助手之间无缝迁移项目规则、记忆和上下文。
 
 [English](#english) | [中文](#中文) | [繁體中文](#繁體中文) | [日本語](#日本語) | [한국어](#한국어)
 
 ---
 
-## 🌟 核心亮点 | Key Features
+## Key Features
 
-- **16 平台支持** | **16 Platforms**: Claude Code, OpenAI Codex, GitHub Copilot, Cursor, Windsurf, Gemini CLI, Aider, Cline, Roo Code, WorkBuddy, CodeBuddy, Trae, TONGYI Lingma, Augment Code, Qoder, OpenClaw/ClawHub
-- **双向迁移** | **Bidirectional**: 任意平台 ←→ 任意平台互转
-- **Canonical 中间格式** | **Canonical Format**: 统一的 YAML 内部表示作为唯一真相源
-- **独立 SKILL.md** | **Standalone SKILL.md**: 每个平台一个独立的 ClawHub 可发布 SKILL
-- **规则类型映射** | **Rule Type Mapping**: Always Apply / Scoped / Agent-Decided / Manual 四类规则自动转换
-- **字符限制处理** | **Character Limit Handling**: 自动拆分/截断，适配各平台限制
+- **16 Platforms Supported**: Claude Code, OpenAI Codex, GitHub Copilot, Cursor, Windsurf, Gemini CLI, Aider, Cline, Roo Code, WorkBuddy, CodeBuddy, Trae, TONGYI Lingma, Augment Code, Qoder, OpenClaw/ClawHub
+- **Bidirectional Migration**: Any platform → any other platform, both directions
+- **Canonical Format**: Unified YAML internal representation as the single source of truth
+- **Standalone SKILL.md**: Each platform has its own independent, ClawHub-publishable SKILL
+- **Rule Type Mapping**: Always Apply / Scoped / Agent-Decided / Manual — automatic conversion
+- **Character Limit Handling**: Auto-split/truncate to match each platform's constraints
 
 ---
 
-## 📦 文件结构 | Structure
+## Project Structure
 
 ```
 ai-mind-migrate/
-├── SKILL.md                    # 主 Skill — 通用迁移引擎
-├── PLATFORM_REFERENCE.md       # 16 平台格式速查卡
-├── migrate.sh                  # CLI 迁移脚本
-└── skills-for-store/           # 16 个独立 Skill（每个可单独上传 ClawHub）
+├── SKILL.md                    # Master Skill — universal migration engine
+├── PLATFORM_REFERENCE.md       # 16-platform format cheat sheet
+├── migrate.sh                  # CLI migration script
+└── skills-for-store/           # 16 standalone Skills (each self-contained)
     ├── openclaw/ai-mind-migrate-openclaw/
-    │   ├── SKILL.md            # OpenClaw 迁移 Skill
-    │   ├── migrate.sh          # CLI 脚本
+    │   ├── SKILL.md
+    │   ├── migrate.sh
     │   └── PLATFORM_REFERENCE.md
     ├── claude-code/ai-mind-migrate-claude-code/
     ├── cursor/ai-mind-migrate-cursor/
@@ -47,166 +47,226 @@ ai-mind-migrate/
     └── qoder/ai-mind-migrate-qoder/
 ```
 
----
-
-## 🚀 快速开始 | Quick Start
-
-### 在 Claude Code 中使用
-
-1. 将 `skills-for-store/skill-claude-code/` 复制到你的项目 `.claude/skills/` 目录
-2. 在 Claude Code 中输入 `/ai-mind-migrate-claude-code` 或描述你的迁移需求
-3. AI 会自动检测项目中的现有配置文件并引导迁移
-
-### 在 WorkBuddy 中使用
-
-1. 将 `skills-for-store/skill-workbuddy/` 复制到 `~/.workbuddy/skills/` 目录
-2. 在 WorkBuddy 中输入 `@skill://ai-mind-migrate-workbuddy` 触发
-3. 或直接描述你的迁移需求，WorkBuddy 会自动调用
-
-### 在 Cursor 中使用
-
-1. 将 `skills-for-store/skill-cursor/` 复制到 `.cursor/skills/` 目录
-2. 在 Cursor Agent 中描述迁移需求即可自动触发
-
-### 在 OpenClaw / ClawHub 中使用
-
-1. 从 ClawHub 安装对应的 Skill，或直接克隆本仓库
-2. 将对应平台的 skill 目录放入你的项目
-3. 使用 `@skill://` 或 `/skill-name` 激活
+Each folder under `skills-for-store/{platform}/ai-mind-migrate-{platform}/` is completely self-contained and can be used independently. Upload any of these folders to a skill marketplace or copy to the platform's skill directory.
 
 ---
 
-## 🛠 支持的平台 | Supported Platforms
+## Quick Start
 
-| # | Platform | 主文件 | Skill 存储路径 | 独有字段 |
-|---|----------|--------|--------------|---------|
+### Using with Claude Code
+1. Copy `skills-for-store/claude-code/ai-mind-migrate-claude-code/` to your project's `.claude/skills/` directory
+2. In Claude Code, type `/ai-mind-migrate-claude-code` or describe your migration needs
+3. The AI will automatically detect existing config files and guide the migration
+
+### Using with WorkBuddy
+1. Copy `skills-for-store/workbuddy/ai-mind-migrate-workbuddy/` to `~/.workbuddy/skills/`
+2. Trigger with `@skill://ai-mind-migrate-workbuddy` in WorkBuddy
+3. Or just describe your migration needs — WorkBuddy auto-invokes the skill
+
+### Using with Cursor
+1. Copy `skills-for-store/cursor/ai-mind-migrate-cursor/` to `.cursor/skills/`
+2. Describe your migration needs in Cursor Agent — it triggers automatically
+
+### Using with OpenClaw
+1. Install from ClawHub or clone this repository
+2. Copy the relevant platform skill folder to your project
+3. Activate with `@skill://` or `/skill-name`
+
+### CLI Usage (migrate.sh)
+```bash
+bash migrate.sh detect              # Scan project for AI config files
+bash migrate.sh migrate cursor      # Migrate to Cursor format
+bash migrate.sh migrate claude-code # Migrate to Claude Code format
+bash migrate.sh export-canonical    # Export canonical YAML snapshot
+```
+
+---
+
+## Supported Platforms
+
+| # | Platform | Primary File(s) | Skill Directory | Unique Fields |
+|---|----------|----------------|-----------------|---------------|
 | 1 | **Claude Code** | CLAUDE.md / .claude/CLAUDE.md | .claude/skills/ | when_to_use, arguments, context(fork), disable-model-invocation |
-| 2 | **OpenAI Codex** | AGENTS.md | ~/.codex/skills/ | metadata (任意 map) |
+| 2 | **OpenAI Codex** | AGENTS.md | ~/.codex/skills/ | metadata (arbitrary map) |
 | 3 | **GitHub Copilot** | .github/copilot-instructions.md | .github/instructions/ | applyTo frontmatter |
 | 4 | **Cursor** | AGENTS.md / .cursor/rules/*.mdc | .cursor/skills/ | paths, disable-model-invocation |
-| 5 | **Windsurf** | .windsurfrules (旧) / .windsurf/rules/*.md | .windsurf/skills/ | 无（仅 core） |
+| 5 | **Windsurf** | .windsurfrules (legacy) / .windsurf/rules/*.md | .windsurf/skills/ | None (core only) |
 | 6 | **Gemini CLI** | GEMINI.md | — | @file.md imports |
-| 7 | **Aider** | CONVENTIONS.md | — | 需 --read |
-| 8 | **Cline** | .clinerules / .clinerules/*.md | — | paths (仅) |
-| 9 | **Roo Code** | .roorules (旧) / .roo/rules/*.md | — | mode-specific rules |
-| 10 | **WorkBuddy** | .workbuddy/memory/MEMORY.md | ~/.workbuddy/skills/ | 无（agentskills.io） |
+| 7 | **Aider** | CONVENTIONS.md | — | Requires --read |
+| 8 | **Cline** | .clinerules / .clinerules/*.md | — | paths (only) |
+| 9 | **Roo Code** | .roorules (legacy) / .roo/rules/*.md | — | mode-specific rules |
+| 10 | **WorkBuddy** | .workbuddy/memory/MEMORY.md | ~/.workbuddy/skills/ | None (agentskills.io) |
 | 11 | **CodeBuddy** | CODEBUDDY.md / .codebuddy/CODEBUDDY.md | — | @path imports, 3 loading types |
-| 12 | **Trae** | CLAUDE.md / .trae/rules/project_rules.md | .trae/skills/ | 多层规则优先级 |
-| 13 | **TONGYI Lingma** | — / .lingma/rules/*.md | — | 4规则类型（IDE UI） |
+| 12 | **Trae** | CLAUDE.md / .trae/rules/project_rules.md | .trae/skills/ | Multi-level rule priority |
+| 13 | **TONGYI Lingma** | — / .lingma/rules/*.md | — | 4 rule types (IDE UI) |
 | 14 | **Augment Code** | .augment/guidelines.md / .augment/rules/*.md | — | type (always_apply/agent_requested) |
 | 15 | **Qoder/QCode** | AGENTS.md / .qoder/rules/* | — | 100K char total limit |
 | 16 | **OpenClaw/ClawHub** | SKILL.md (YAML FM) | <project>/ | metadata.openclaw, version, slug |
 
 ---
 
-## 📖 迁移模式 | Migration Modes
+## Migration Modes
 
-### 自动检测 + 转换
+### Auto-detect + Convert
 ```
-源平台 (CLAUDE.md) → 解析 Canonical 格式 → 生成目标平台 (.cursor/rules/*.mdc)
-```
-
-### 命令式 (migrate.sh)
-```bash
-bash migrate.sh detect              # 扫描项目中的 AI 配置文件
-bash migrate.sh migrate cursor      # 迁移到 Cursor 格式
-bash migrate.sh migrate claude-code # 迁移到 Claude Code 格式
-bash migrate.sh export-canonical    # 导出 Canonical 快照
+Source Platform (CLAUDE.md) → Parse Canonical Format → Generate Target (.cursor/rules/*.mdc)
 ```
 
-### Canonical 中间格式
-所有转换通过统一的 YAML 中间格式完成，支持 15+ 种字段类型：
+### Canonical Intermediate Format
+All conversions go through a unified YAML intermediate format supporting 15+ field types:
 `project`, `commands`, `structure`, `conventions`, `boundaries`, `preferences`, `decisions`, `scope_rules`, `memory`
 
----
-
-## 📜 许可证 | License
-
-MIT-0 — 自由使用、修改和再分发。
-
----
-
-## 🤝 贡献 | Contributing
-
-PR、Issues 和 Feature Requests 欢迎提交！
+### Cross-platform Rule Type Mapping
+| Source Type | → Always | → Scoped | → Agent-Decided | → Manual |
+|-------------|----------|----------|-----------------|----------|
+| Always | Direct | Add glob paths | Change type | Change type |
+| Scoped | Remove paths | Direct | Keep paths | Keep paths |
+| Agent-Decided | Set alwaysApply | Set alwaysApply:false+paths | Direct | Remove description |
+| Manual | Set alwaysApply | Set alwaysApply:false+paths | Add description | Direct |
 
 ---
 
-## 🌐 跨平台 Skill 标准 | Cross-Platform Skill Standard
+## Cross-platform Skill Standard
 
-所有平台均遵循 [agentskills.io](https://agentskills.io) 开放标准：
-- **必需**: `name` + `description`
-- **可选**: `license`, `compatibility`, `metadata`, `allowed-tools`
-- **平台扩展**: 各平台在此基础上添加独有字段
+All platforms follow the [agentskills.io](https://agentskills.io) open standard:
+- **Required**: `name` + `description`
+- **Optional**: `license`, `compatibility`, `metadata`, `allowed-tools`
+- **Platform Extensions**: Each platform adds unique fields on top of this standard
 
 ---
 
-<a id="english"></a>
+## License
 
-## English
+MIT-0 — Free to use, modify, and redistribute.
 
-**AI Mind Migrate** is a cross-platform tool for migrating your project context, rules, and memory between AI coding assistants. It supports 16 platforms through a unified canonical format.
+---
 
-**Use cases:**
-- **Switch tools**: Migrate from Cursor to Claude Code without losing your project rules
-- **Sync between tools**: Keep consistent rules across multiple AI coding assistants
-- **Team onboarding**: Initialize a new AI tool with your team's established conventions
-- **Cross-tool collaboration**: Share context between team members using different tools
+## Contributing
 
-**How to install:**
-- **Claude Code**: Copy `skills-for-store/claude-code/ai-mind-migrate-claude-code/` to `.claude/skills/`
-- **WorkBuddy**: Copy `skills-for-store/workbuddy/ai-mind-migrate-workbuddy/` to `~/.workbuddy/skills/`
-- **Cursor**: Copy `skills-for-store/cursor/ai-mind-migrate-cursor/` to `.cursor/skills/`
-- **Others**: Copy the relevant skill folder to the platform's skills directory
+PRs, Issues, and Feature Requests are welcome!
+
+---
+
+## Support
+
+- **GitHub Issues**: https://github.com/deveuper/ai-mind-migrate/issues
+
+---
+
+*Made with 🦞 by deveuper*
+
+---
+
+<a id="中文"></a>
+
+# 中文
+
+## AI Mind Migrate
+
+**跨平台 AI 上下文迁移工具** — 在 16 个 AI 编码助手之间无缝迁移项目规则、记忆和上下文。
+
+### 主要特点
+
+- **16 平台支持**：Claude Code, OpenAI Codex, GitHub Copilot, Cursor, Windsurf, Gemini CLI, Aider, Cline, Roo Code, WorkBuddy, CodeBuddy, Trae, TONGYI Lingma, Augment Code, Qoder, OpenClaw/ClawHub
+- **双向迁移**：任意平台 ←→ 任意平台互转
+- **Canonical 中间格式**：统一的 YAML 内部表示作为唯一真相源
+- **独立 SKILL.md**：每个平台一个独立的自包含 SKILL
+- **规则类型映射**：Always Apply / Scoped / Agent-Decided / Manual 四类规则自动转换
+
+### 各平台使用
+
+**Claude Code**: 复制 `skills-for-store/claude-code/ai-mind-migrate-claude-code/` 到 `.claude/skills/`，使用 `/ai-mind-migrate-claude-code` 触发。
+
+**WorkBuddy**: 复制 `skills-for-store/workbuddy/ai-mind-migrate-workbuddy/` 到 `~/.workbuddy/skills/`，使用 `@skill://ai-mind-migrate-workbuddy` 触发。
+
+**Cursor**: 复制 `skills-for-store/cursor/ai-mind-migrate-cursor/` 到 `.cursor/skills/`，描述迁移需求即可自动触发。
+
+**CLI**: `bash migrate.sh detect` 扫描项目配置，`bash migrate.sh migrate cursor` 迁移到指定格式。
+
+### 项目结构
+
+```
+ai-mind-migrate/
+├── SKILL.md                    # 主 Skill
+├── PLATFORM_REFERENCE.md       # 平台格式速查
+├── migrate.sh                  # CLI 脚本
+└── skills-for-store/           # 16 个独立 Skill
+    ├── openclaw/ai-mind-migrate-openclaw/
+    ├── claude-code/ai-mind-migrate-claude-code/
+    ├── cursor/ai-mind-migrate-cursor/
+    └── ...
+```
+
+每个 `skills-for-store/{平台}/ai-mind-migrate-{平台}/` 文件夹都是自包含的，可直接使用。
 
 ---
 
 <a id="繁體中文"></a>
 
-## 繁體中文
+# 繁體中文
 
+## AI Mind Migrate
 
+**跨平台 AI 上下文遷移工具** — 支援 16 個編碼助手平台之間的規則與記憶雙向遷移。
 
-**AI Mind Migrate** 是一個跨平台的 AI 上下文遷移工具，支援 16 個編碼助手平台之間的規則與記憶雙向遷移。
+### 主要特點
 
-**使用方式：**
-- 將對應平台的 skill 資料夾複製到該平台的技能目錄
-- 使用 `/skill-name` 或 `@skill://` 觸發遷移
-- AI 會自動偵測現有配置並引導轉換
+- **16 平台支援**：Claude Code, OpenAI Codex, GitHub Copilot, Cursor, Windsurf, Gemini CLI, Aider, Cline, Roo Code, WorkBuddy, CodeBuddy, Trae, TONGYI Lingma, Augment Code, Qoder, OpenClaw/ClawHub
+- **雙向遷移**：任意平台 ←→ 任意平台互轉
+- **獨立 SKILL.md**：每個平台一個獨立的自包含 SKILL
+
+### 使用方式
+
+**Claude Code**：將 `skills-for-store/claude-code/ai-mind-migrate-claude-code/` 複製到 `.claude/skills/`，使用 `/ai-mind-migrate-claude-code` 觸發。
+
+**WorkBuddy**：將 `skills-for-store/workbuddy/ai-mind-migrate-workbuddy/` 複製到 `~/.workbuddy/skills/`，使用 `@skill://ai-mind-migrate-workbuddy` 觸發。
+
+**Cursor**：將 `skills-for-store/cursor/ai-mind-migrate-cursor/` 複製到 `.cursor/skills/`，描述遷移需求即可。
 
 ---
 
 <a id="日本語"></a>
 
-## 日本語
+# 日本語
 
-**AI Mind Migrate** は、16 の AI コーディングアシスタント間でプロジェクトのルール、メモリ、コンテキストをシームレスに移行するためのクロスプラットフォームツールです。
+## AI Mind Migrate
 
-**使用方法：**
-- 対応するプラットフォームの skill フォルダーをそのプラットフォームの skill ディレクトリにコピー
-- `/skill-name` または `@skill://` で移行をトリガー
-- AI が既存の設定を自動検出して変換をガイド
+**16 の AI コーディングアシスタント間でプロジェクトのルール、メモリ、コンテキストをシームレスに移行するクロスプラットフォームツール。**
+
+### 主な特徴
+
+- **16 プラットフォーム対応**：Claude Code, OpenAI Codex, GitHub Copilot, Cursor, Windsurf, Gemini CLI, Aider, Cline, Roo Code, WorkBuddy, CodeBuddy, Trae, TONGYI Lingma, Augment Code, Qoder, OpenClaw/ClawHub
+- **双方向移行**：任意のプラットフォーム間で相互変換
+- **スタンドアロン SKILL.md**：各プラットフォームに独立した SKILL
+
+### 使用方法
+
+**Claude Code**：`skills-for-store/claude-code/ai-mind-migrate-claude-code/` を `.claude/skills/` にコピーし、`/ai-mind-migrate-claude-code` で起動。
+
+**WorkBuddy**：`skills-for-store/workbuddy/ai-mind-migrate-workbuddy/` を `~/.workbuddy/skills/` にコピーし、`@skill://ai-mind-migrate-workbuddy` で起動。
+
+**Cursor**：`skills-for-store/cursor/ai-mind-migrate-cursor/` を `.cursor/skills/` にコピー。
 
 ---
 
 <a id="한국어"></a>
 
-## 한국어
+# 한국어
 
-**AI Mind Migrate**는 16개의 AI 코딩 어시스턴트 간에 프로젝트 규칙, 메모리 및 컨텍스트를 원활하게 마이그레이션하기 위한 크로스 플랫폼 도구입니다.
+## AI Mind Migrate
 
-**사용 방법：**
-- 해당 플랫폼의 skill 폴더를 해당 플랫폼의 skill 디렉토리에 복사
-- `/skill-name` 또는 `@skill://`로 마이그레이션 트리거
-- AI가 기존 설정을 자동 감지하여 변환 안내
+**16개의 AI 코딩 어시스턴트 간에 프로젝트 규칙, 메모리 및 컨텍스트를 원활하게 마이그레이션하는 크로스 플랫폼 도구입니다.**
 
----
+### 주요 기능
 
-## ⚡ 支持 | Support
+- **16개 플랫폼 지원**: Claude Code, OpenAI Codex, GitHub Copilot, Cursor, Windsurf, Gemini CLI, Aider, Cline, Roo Code, WorkBuddy, CodeBuddy, Trae, TONGYI Lingma, Augment Code, Qoder, OpenClaw/ClawHub
+- **양방향 마이그레이션**: 모든 플랫폼 간 상호 변환
+- **독립형 SKILL.md**: 각 플랫폼에 독립적인 SKILL
 
-- **GitHub Issues**: https://github.com/deveuper/ai-mind-migrate/issues
-- **ClawHub**: https://clawhub.ai
+### 사용 방법
 
----
+**Claude Code**: `skills-for-store/claude-code/ai-mind-migrate-claude-code/`를 `.claude/skills/`에 복사하고 `/ai-mind-migrate-claude-code`로 실행합니다.
 
-*Made with 🦞 by deveuper*
+**WorkBuddy**: `skills-for-store/workbuddy/ai-mind-migrate-workbuddy/`를 `~/.workbuddy/skills/`에 복사하고 `@skill://ai-mind-migrate-workbuddy`로 실행합니다.
+
+**Cursor**: `skills-for-store/cursor/ai-mind-migrate-cursor/`를 `.cursor/skills/`에 복사합니다.
